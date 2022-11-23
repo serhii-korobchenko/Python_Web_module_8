@@ -38,7 +38,7 @@ WHERE gr.id = 1;
 SELECT t.name_teacher, sb.name_subject
 FROM teachers t
 LEFT JOIN subjects sb ON t.id = sb.teacher_id
-WHERE t.id = 1;
+WHERE t.id = 3;
 
 
 --Список студентов в группе.
@@ -61,12 +61,12 @@ FROM grades g
 LEFT JOIN students s ON s.id = g.student_id
 LEFT JOIN subjects sb ON sb.id = g.subject_id
 LEFT JOIN [groups] gr ON gr.id = s.group_id
-WHERE sb.id = 2 AND gr.id = 1 AND g.date_of = (SELECT g.date_of
+WHERE sb.id = 3 AND gr.id = 2 AND g.date_of = (SELECT g.date_of
 FROM grades g
 LEFT JOIN students s ON s.id = g.student_id
 LEFT JOIN subjects sb ON sb.id = g.subject_id
 LEFT JOIN [groups] gr ON gr.id = s.group_id
-WHERE sb.id = 2 AND gr.id = 1
+WHERE sb.id = 3 AND gr.id = 2
 ORDER BY g.date_of DESC
 LIMIT 1);
 
@@ -85,7 +85,7 @@ FROM students s
 LEFT JOIN grades g  ON s.id = g.student_id
 LEFT JOIN subjects sb ON sb.id = g.subject_id
 LEFT JOIN teachers t  ON t.id = sb.teacher_id
-WHERE s.id = 2 AND t.id = 1
+WHERE s.id = 2 AND t.id = 3
 
 --Средний балл, который преподаватель ставит студенту.
 SELECT s.name_student, t.name_teacher, round (avg(g.grade), 2) AS avg_grade
@@ -98,6 +98,7 @@ WHERE s.id = 2 AND t.id = 1
 --Средний балл, который ставит преподаватель.
 SELECT t.name_teacher, round (avg(g.grade), 2) AS avg_grade
 FROM grades g
+
 LEFT JOIN subjects sb ON sb.id = g.subject_id
 LEFT JOIN teachers t  ON t.id = sb.teacher_id
 GROUP BY t.name_teacher
